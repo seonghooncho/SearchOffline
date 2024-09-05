@@ -23,7 +23,7 @@ public class MarketDTO {
         private String phoneNumber;
         private String location;
 
-        /* DTO -> Entity
+        // DTO -> Entity
         public MarketEntity toEntity() {
             return MarketEntity.builder()
                     .marketID(marketID)
@@ -32,7 +32,7 @@ public class MarketDTO {
                     .phoneNumber(phoneNumber)
                     .location(location)
                     .build();
-        }*/
+        }
     }
 
     @Getter

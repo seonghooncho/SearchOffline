@@ -12,6 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Getter
+@Setter
 @Entity
 public class ReviewEntity extends BaseEntity{
 
@@ -34,9 +35,8 @@ public class ReviewEntity extends BaseEntity{
     private float score;
 
     //리뷰 수정
-    public void update(String reviewDetail, List<FileEntity> reviewImages, float score) {
+    public void update(String reviewDetail, float score) {
         this.reviewDetail = reviewDetail;
-        this.reviewImages = reviewImages;
         this.score = score;
     }
 }

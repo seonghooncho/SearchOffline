@@ -33,15 +33,12 @@ public class UserDTO {
         @NotBlank(message = "닉네임이 비어있습니다.")
         private String userName;
 
-        private FileEntity userImage;//구현시 이미지 없으면 기본이미지 주기
-        // DTO -> Entity
         public UserEntity toEntity() {
             return UserEntity.builder()
                     .userID(userID)
                     .userEmail(userEmail)
                     .userPassword(userPassword)
                     .userName(userName)
-                    .userImage(userImage)
                     .build();
         }
     }

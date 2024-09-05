@@ -4,11 +4,11 @@ import com.selfProject.SearchOffline.dto.FileDTO;
 import com.selfProject.SearchOffline.dto.MarketDTO;
 import com.selfProject.SearchOffline.entity.FileEntity;
 import com.selfProject.SearchOffline.entity.MarketEntity;
-import com.selfProject.SearchOffline.repository.FileRepository;
 import com.selfProject.SearchOffline.repository.MarketRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,54 +17,31 @@ public class MarketService {
 
     private final MarketRepository marketRepository;
     private final FileService fileService;
-    private final FileRepository fileRepository;
 
-    public MarketService(MarketRepository marketRepository, FileService fileService, FileRepository fileRepository) {
+    public MarketService(MarketRepository marketRepository, FileService fileService) {
         this.marketRepository = marketRepository;
         this.fileService = fileService;
-        this.fileRepository = fileRepository;
     }
 
     @Transactional
-    public MarketDTO createMarket(MarketDTO.Request requestMarket, List<FileDTO.Request> requestImages) {
-        List<FileEntity> fileEntities = fileService.saveFiles(List.of(new FileDTO(marketDTO.getMarketImageID(), null, null, null)));
-
-        MarketEntity marketEntity = MarketEntity.toSaveEntity(marketDTO);
-        marketEntity.setMarketImageID(fileEntities.isEmpty() ? null : fileEntities.get(0).getFileID());
-
+    public MarketDTO.Response saveMarket(MarketDTO.Request marketRequest, List<FileDTO.Request> fileDTOs) throws IOException {
+        //MarketEntity 생성, 저장
+        MarketEntity marketEntity = marketRequest.toEntity();
         MarketEntity savedMarket = marketRepository.save(marketEntity);
-        return MarketDTO.toDTO(savedMarket);
+        //파일저장
+        List<FileEntity> fileEntities= fileService.saveFiles(fileDTOs);
+
+        // 3. MarketEntity에 파일 정보 추가
+        savedMarket.setMarketImages(fileEntities);
+        marketRepository.save(savedMarket);
+
+        return new MarketDTO.Response(savedMarket);
     }
 
-    public MarketDTO getMarketById(Long marketId) {
+    @Transactional(readOnly = true)
+    public MarketDTO.Response findById(Long marketId) {
         Optional<MarketEntity> marketEntity = marketRepository.findById(marketId);
-        return marketEntity.map(MarketDTO::toDTO).orElse(null);
-    }
-
-    @Transactional
-    public MarketDTO updateMarket(Long marketId, MarketDTO marketDTO) {
-        Optional<MarketEntity> optionalMarket = marketRepository.findById(marketId);
-
-        if (optionalMarket.isPresent()) {
-            MarketEntity marketEntity = optionalMarket.get();
-            marketEntity.setMarketName(marketDTO.getMarketName());
-            marketEntity.setBusinessHour(marketDTO.getBusinessHour());
-            marketEntity.setPhoneNumber(marketDTO.getPhoneNumber());
-            marketEntity.setLocation(marketDTO.getLocation());
-
-            if (marketDTO.getMarketImageID() != null) {
-                FileEntity fileEntity = fileService.saveFile(new FileDTO(marketDTO.getMarketImageID(), null, null, null));
-                marketEntity.setMarketImageID(fileEntity.getFileID());
-            }
-
-            marketEntity.setProductIDList(marketDTO.getProductIDList());
-            marketEntity.setReviewIDList(marketDTO.getReviewIDList());
-
-            marketRepository.save(marketEntity);
-            return MarketDTO.toDTO(marketEntity);
-        }
-
-        return null;
+        return marketEntity.map(MarketDTO.Response::new).orElse(null);
     }
 
     @Transactional
@@ -101,28 +78,16 @@ public class MarketService {
         market.getMarketImages().remove(fileEntity);
 
         // 이미지 엔티티 삭제
-        fileRepository.delete(fileEntity);
+        fileService.delete(fileEntity);
     }
     //사진추가
     @Transactional
-    public void addMarketImage(Long marketId, FileEntity newFile) {
+    public void addMarketImage(Long marketId, FileDTO.Request requestFile) throws IOException {
         MarketEntity market = marketRepository.findById(marketId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 마켓이 존재하지 않습니다."));
-
-        // 새로운 파일 엔티티 설정
-        newFile.setMarket(market);  // 파일 엔티티에 마켓 정보를 설정해줘야 함
-
-        // 이미지 리스트에 추가
-        market.getMarketImages().add(newFile);
-
-        // 새로운 파일 엔티티 저장
-        FileRepository.save(newFile);
+        FileEntity fileEntity = fileService.saveFile(requestFile);
+        market.getMarketImages().add(fileEntity);
+        marketRepository.save(market);
     }
 
-
-    public List<MarketDTO> getAllMarkets() {
-        return marketRepository.findAll().stream()
-                .map(MarketDTO::toDTO)
-                .toList();
-    }
 }
