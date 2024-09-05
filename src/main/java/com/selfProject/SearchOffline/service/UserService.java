@@ -1,11 +1,15 @@
 package com.selfProject.SearchOffline.service;
 
+import com.selfProject.SearchOffline.dto.FileDTO;
 import com.selfProject.SearchOffline.dto.UserDTO;
+import com.selfProject.SearchOffline.entity.FileEntity;
+import com.selfProject.SearchOffline.entity.ProductEntity;
 import com.selfProject.SearchOffline.entity.UserEntity;
 import com.selfProject.SearchOffline.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.Optional;
 
 @Service
@@ -20,45 +24,36 @@ public class UserService {
     }
 
     @Transactional
-    public UserDTO createUser(UserDTO userDTO) {
-        if (userDTO.getUserImageID() != null) {
-            // 파일 처리 로직을 구현할 경우 여기에서 파일 정보를 설정합니다.
-        }
-
-        UserEntity userEntity = UserEntity.toSaveEntity(userDTO);
-        UserEntity savedUser = userRepository.save(userEntity);
-
-        return UserDTO.toDTO(savedUser);
+    public UserEntity createUser(UserDTO.Request requestUser) {
+        return userRepository.save(requestUser.toEntity());
     }
 
     @Transactional
-    public UserDTO updateUser(Long userId, UserDTO userDTO) {
+    public UserEntity updateUser(Long userId, UserDTO.Request requestUser) {
         Optional<UserEntity> optionalUser = userRepository.findById(userId);
 
         if (optionalUser.isPresent()) {
             UserEntity userEntity = optionalUser.get();
-            userEntity.setUserEmail(userDTO.getUserEmail());
-            userEntity.setUserPassword(userDTO.getUserPassword());
-            userEntity.setUserName(userDTO.getUserName());
+            userEntity.update(requestUser.getUserPassword(),requestUser.getUserName());
 
-            if (userDTO.getUserImageID() != null) {
-                userEntity.setUserImageID(userDTO.getUserImageID());
-            }
-
-            userEntity.setUserMarketIDList(userDTO.getUserMarketIDList());
-
-            userRepository.save(userEntity);
-            return UserDTO.toDTO(userEntity);
+            return userRepository.save(userEntity);
         }
-
         return null;
     }
-
-    public UserDTO getUserById(Long userId) {
+    @Transactional(readOnly = true)
+    public UserDTO.Response getUserById(Long userId) {
         Optional<UserEntity> userEntity = userRepository.findById(userId);
-        return userEntity.map(UserDTO::toDTO).orElse(null);
+        return userEntity.map(UserDTO.Response::new).orElse(null);
     }
+    @Transactional
+    public void changeUserImage(Long userId, FileDTO.Request requestFile) throws IOException {
 
+        UserEntity user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 유저가 존재하지 않습니다."));
+        FileEntity fileEntity = fileService.saveFile(requestFile);
+        user.setUserImage(fileEntity);
+        userRepository.save(user);
+    }
     @Transactional
     public void deleteUser(Long userId) {
         userRepository.deleteById(userId);

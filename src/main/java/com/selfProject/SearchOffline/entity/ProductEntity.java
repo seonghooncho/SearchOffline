@@ -9,6 +9,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Getter
+@Setter
 @Entity
 public class ProductEntity {
 
@@ -36,12 +37,11 @@ public class ProductEntity {
     private List<FileEntity> productImages = new ArrayList<>();
 
     /* Entity 업데이트 */
-    public void update(String productName, Long productPrice, Long productCount, String productDescription, List<FileEntity> productImages) {
+    public void update(String productName, Long productPrice, Long productCount, String productDescription) {
         this.productName = productName;
         this.productPrice = productPrice;
         this.productCount = productCount;
         this.productDescription = productDescription;
-        this.productImages = productImages;
     }
     public void changeCount(Long productCount){
         this.productCount = productCount;

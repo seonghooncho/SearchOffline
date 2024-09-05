@@ -30,7 +30,7 @@ public class FileService {
         this.fileRepository = fileRepository;
     }
     @Transactional
-    public FileDTO.Response saveFile(FileDTO.Request requestDTO) throws IOException {
+    public FileEntity saveFile(FileDTO.Request requestDTO) throws IOException {
         // 없는 디렉토리라면 생성
         File dir = new File(uploadDir);
         if (!dir.exists()) {
@@ -42,13 +42,12 @@ public class FileService {
         //파일저장
         requestDTO.getFile().transferTo(new File(filePath));
         FileEntity fileEntity = requestDTO.toEntity();
-        FileEntity savedFileEntity = fileRepository.save(fileEntity);
-        return new FileDTO.Response(savedFileEntity);
+        return fileRepository.save(fileEntity);
 
     }
 
     @Transactional
-    public List<FileDTO.Response> saveFiles(List<FileDTO.Request> fileDTOs){
+    public List<FileEntity> saveFiles(List<FileDTO.Request> fileDTOs){
         return fileDTOs.stream()
                 .map(dto -> {
                     try {
@@ -72,5 +71,10 @@ public class FileService {
         return fileRepository.findAllById(fileIds).stream()
                 .map(FileDTO.Response::new)
                 .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public void delete(FileEntity fileEntity){
+        fileRepository.delete(fileEntity);
     }
 }

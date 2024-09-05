@@ -9,6 +9,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Getter
+@Setter
 @Entity
 public class UserEntity {
 
@@ -32,9 +33,8 @@ public class UserEntity {
     private List<MarketEntity> markets = new ArrayList<>();
 
     //회원정보 수정
-    public void update(String userPassword, String userName, FileEntity userImage) {
+    public void update(String userPassword, String userName) {
         this.userPassword = userPassword;
         this.userName = userName;
-        this.userImage = userImage;
     }
 }
