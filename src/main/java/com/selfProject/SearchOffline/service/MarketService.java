@@ -5,6 +5,7 @@ import com.selfProject.SearchOffline.dto.MarketDTO;
 import com.selfProject.SearchOffline.entity.FileEntity;
 import com.selfProject.SearchOffline.entity.MarketEntity;
 import com.selfProject.SearchOffline.repository.MarketRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,15 +14,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class MarketService {
 
     private final MarketRepository marketRepository;
     private final FileService fileService;
-
-    public MarketService(MarketRepository marketRepository, FileService fileService) {
-        this.marketRepository = marketRepository;
-        this.fileService = fileService;
-    }
 
     @Transactional
     public MarketDTO.Response saveMarket(MarketDTO.Request marketRequest, List<FileDTO.Request> fileDTOs) throws IOException {
@@ -61,6 +58,8 @@ public class MarketService {
         // 수정된 엔티티 저장
         marketRepository.save(marketEntity);
     }
+
+    //사진 추가 및 삭제는 파일 핸들러로 따로 만들 방안 고려
     //사진 삭제
     @Transactional
     public void removeMarketImage(Long marketId, Long imageId) {

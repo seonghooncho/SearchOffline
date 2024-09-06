@@ -8,6 +8,7 @@ import com.selfProject.SearchOffline.entity.MarketEntity;
 import com.selfProject.SearchOffline.entity.ProductEntity;
 import com.selfProject.SearchOffline.repository.MarketRepository;
 import com.selfProject.SearchOffline.repository.ProductRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,14 +18,10 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class ProductService {
     private final ProductRepository productRepository;
     private final FileService fileService;
-
-    public ProductService( ProductRepository productRepository, FileService fileService) {
-        this.productRepository = productRepository;
-        this.fileService = fileService;
-    }
 
     @Transactional
     public ProductDTO.Response saveProduct(ProductDTO.Request productRequest, List<FileDTO.Request> fileDTOs) throws IOException {
