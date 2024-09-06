@@ -4,6 +4,7 @@ import com.selfProject.SearchOffline.dto.FileDTO;
 import com.selfProject.SearchOffline.entity.FileEntity;
 import com.selfProject.SearchOffline.repository.FileRepository;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,15 +21,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class FileService {
 
     private final FileRepository fileRepository;
     @Value("${file.upload-dir}")
     private String uploadDir;
 
-    public FileService(FileRepository fileRepository) {
-        this.fileRepository = fileRepository;
-    }
     @Transactional
     public FileEntity saveFile(FileDTO.Request requestDTO) throws IOException {
         // 없는 디렉토리라면 생성

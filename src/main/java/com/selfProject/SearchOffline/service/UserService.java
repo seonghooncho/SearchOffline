@@ -24,7 +24,7 @@ public class UserService {
     }
 
     @Transactional
-    public UserEntity createUser(UserDTO.Request requestUser) {
+    public UserEntity saveUser(UserDTO.Request requestUser) {
         return userRepository.save(requestUser.toEntity());
     }
 

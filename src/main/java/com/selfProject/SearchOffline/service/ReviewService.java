@@ -7,6 +7,7 @@ import com.selfProject.SearchOffline.entity.FileEntity;
 import com.selfProject.SearchOffline.entity.ProductEntity;
 import com.selfProject.SearchOffline.entity.ReviewEntity;
 import com.selfProject.SearchOffline.repository.ReviewRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,15 +18,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class ReviewService {
 
     private final ReviewRepository reviewRepository;
     private final FileService fileService;
-
-    public ReviewService(ReviewRepository reviewRepository, FileService fileService) {
-        this.reviewRepository = reviewRepository;
-        this.fileService = fileService;
-    }
 
     @Transactional
     public ReviewDTO.Response saveReview(ReviewDTO.Request reviewRequest, List<FileDTO.Request> fileDTOs) throws IOException {
