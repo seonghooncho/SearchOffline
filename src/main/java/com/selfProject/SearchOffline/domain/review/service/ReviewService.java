@@ -1,21 +1,17 @@
-package com.selfProject.SearchOffline.service;
+package com.selfProject.SearchOffline.domain.review.service;
 
 import com.selfProject.SearchOffline.dto.FileDTO;
-import com.selfProject.SearchOffline.dto.ProductDTO;
-import com.selfProject.SearchOffline.dto.ReviewDTO;
+import com.selfProject.SearchOffline.domain.review.dto.ReviewDTO;
 import com.selfProject.SearchOffline.entity.FileEntity;
-import com.selfProject.SearchOffline.entity.ProductEntity;
-import com.selfProject.SearchOffline.entity.ReviewEntity;
-import com.selfProject.SearchOffline.repository.ReviewRepository;
+import com.selfProject.SearchOffline.domain.review.entity.ReviewEntity;
+import com.selfProject.SearchOffline.domain.review.repository.ReviewRepository;
+import com.selfProject.SearchOffline.service.FileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor

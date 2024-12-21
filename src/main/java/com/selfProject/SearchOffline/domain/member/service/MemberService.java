@@ -1,11 +1,11 @@
-package com.selfProject.SearchOffline.service;
+package com.selfProject.SearchOffline.domain.member.service;
 
 import com.selfProject.SearchOffline.dto.FileDTO;
-import com.selfProject.SearchOffline.dto.UserDTO;
+import com.selfProject.SearchOffline.domain.member.dto.MemberDTO;
 import com.selfProject.SearchOffline.entity.FileEntity;
-import com.selfProject.SearchOffline.entity.ProductEntity;
-import com.selfProject.SearchOffline.entity.UserEntity;
-import com.selfProject.SearchOffline.repository.UserRepository;
+import com.selfProject.SearchOffline.domain.member.entity.MemberEntity;
+import com.selfProject.SearchOffline.domain.member.repository.MemberRepository;
+import com.selfProject.SearchOffline.service.FileService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,27 +13,27 @@ import java.io.IOException;
 import java.util.Optional;
 
 @Service
-public class UserService {
+public class MemberService {
 
-    private final UserRepository userRepository;
+    private final MemberRepository userRepository;
     private final FileService fileService;
 
-    public UserService(UserRepository userRepository, FileService fileService) {
+    public MemberService(MemberRepository userRepository, FileService fileService) {
         this.userRepository = userRepository;
         this.fileService = fileService;
     }
 
     @Transactional
-    public UserEntity saveUser(UserDTO.Request requestUser) {
+    public MemberEntity saveUser(MemberDTO.Request requestUser) {
         return userRepository.save(requestUser.toEntity());
     }
 
     @Transactional
-    public UserEntity updateUser(Long userId, UserDTO.Request requestUser) {
-        Optional<UserEntity> optionalUser = userRepository.findById(userId);
+    public MemberEntity updateUser(Long userId, MemberDTO.Request requestUser) {
+        Optional<MemberEntity> optionalUser = userRepository.findById(userId);
 
         if (optionalUser.isPresent()) {
-            UserEntity userEntity = optionalUser.get();
+            MemberEntity userEntity = optionalUser.get();
             userEntity.update(requestUser.getUserPassword(),requestUser.getUserName());
 
             return userRepository.save(userEntity);
@@ -41,14 +41,14 @@ public class UserService {
         return null;
     }
     @Transactional(readOnly = true)
-    public UserDTO.Response getUserById(Long userId) {
-        Optional<UserEntity> userEntity = userRepository.findById(userId);
-        return userEntity.map(UserDTO.Response::new).orElse(null);
+    public MemberDTO.Response getUserById(Long userId) {
+        Optional<MemberEntity> userEntity = userRepository.findById(userId);
+        return userEntity.map(MemberDTO.Response::new).orElse(null);
     }
     @Transactional
     public void changeUserImage(Long userId, FileDTO.Request requestFile) throws IOException {
 
-        UserEntity user = userRepository.findById(userId)
+        MemberEntity user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 유저가 존재하지 않습니다."));
         FileEntity fileEntity = fileService.saveFile(requestFile);
         user.setUserImage(fileEntity);

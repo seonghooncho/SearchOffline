@@ -1,18 +1,14 @@
-package com.selfProject.SearchOffline.dto;
+package com.selfProject.SearchOffline.domain.member.dto;
 
-import com.selfProject.SearchOffline.entity.FileEntity;
-import com.selfProject.SearchOffline.entity.MarketEntity;
-import com.selfProject.SearchOffline.entity.UserEntity;
+import com.selfProject.SearchOffline.dto.FileDTO;
+import com.selfProject.SearchOffline.domain.member.entity.MemberEntity;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Null;
 import lombok.*;
-
-import java.util.List;
 
 /**
  * User DTO 클래스
  */
-public class UserDTO {
+public class MemberDTO {
 
     //User 생성과 수정을 처리할 요청(Request) 클래스
     //서버가 사용자에게 요청, 사용자가 서버에 전달
@@ -33,8 +29,8 @@ public class UserDTO {
         @NotBlank(message = "닉네임이 비어있습니다.")
         private String userName;
 
-        public UserEntity toEntity() {
-            return UserEntity.builder()
+        public MemberEntity toEntity() {
+            return MemberEntity.builder()
                     .userID(userID)
                     .userEmail(userEmail)
                     .userPassword(userPassword)
@@ -56,7 +52,7 @@ public class UserDTO {
         private final FileDTO.Response userImage;
 
         /* Entity -> DTO */
-        public Response(UserEntity userEntity) {
+        public Response(MemberEntity userEntity) {
             this.userID = userEntity.getUserID();
             this.userEmail = userEntity.getUserEmail();
             this.userPassword = userEntity.getUserPassword();
