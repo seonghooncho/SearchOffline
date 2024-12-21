@@ -1,5 +1,8 @@
-package com.selfProject.SearchOffline.entity;
+package com.selfProject.SearchOffline.domain.market.entity;
 
+import com.selfProject.SearchOffline.entity.FileEntity;
+import com.selfProject.SearchOffline.domain.product.entity.ProductEntity;
+import com.selfProject.SearchOffline.domain.review.entity.ReviewEntity;
 import lombok.*;
 import javax.persistence.*;
 import java.util.ArrayList;
