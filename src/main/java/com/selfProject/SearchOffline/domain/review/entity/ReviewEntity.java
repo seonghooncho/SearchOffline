@@ -1,8 +1,9 @@
-package com.selfProject.SearchOffline.entity;
+package com.selfProject.SearchOffline.domain.review.entity;
 
+import com.selfProject.SearchOffline.domain.market.entity.MarketEntity;
+import com.selfProject.SearchOffline.entity.FileEntity;
+import com.selfProject.SearchOffline.global.entity.BaseEntity;
 import lombok.*;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -14,7 +15,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-public class ReviewEntity extends BaseEntity{
+public class ReviewEntity extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

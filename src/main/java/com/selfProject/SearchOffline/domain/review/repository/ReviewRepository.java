@@ -1,6 +1,6 @@
-package com.selfProject.SearchOffline.repository;
+package com.selfProject.SearchOffline.domain.review.repository;
 
-import com.selfProject.SearchOffline.entity.ReviewEntity;
+import com.selfProject.SearchOffline.domain.review.entity.ReviewEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

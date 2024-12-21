@@ -1,6 +1,6 @@
-package com.selfProject.SearchOffline.repository;
+package com.selfProject.SearchOffline.domain.product.repository;
 
-import com.selfProject.SearchOffline.entity.ProductEntity;
+import com.selfProject.SearchOffline.domain.product.entity.ProductEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
