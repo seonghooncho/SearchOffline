@@ -1,4 +1,4 @@
-package com.selfProject.SearchOffline.entity;
+package com.selfProject.SearchOffline.global.entity;
 
 import lombok.Getter;
 import org.hibernate.annotations.CreationTimestamp;

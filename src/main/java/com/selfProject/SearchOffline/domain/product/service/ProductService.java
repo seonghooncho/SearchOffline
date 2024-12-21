@@ -1,13 +1,11 @@
-package com.selfProject.SearchOffline.service;
+package com.selfProject.SearchOffline.domain.product.service;
 
 import com.selfProject.SearchOffline.dto.FileDTO;
-import com.selfProject.SearchOffline.dto.MarketDTO;
-import com.selfProject.SearchOffline.dto.ProductDTO;
+import com.selfProject.SearchOffline.domain.product.dto.ProductDTO;
 import com.selfProject.SearchOffline.entity.FileEntity;
-import com.selfProject.SearchOffline.entity.MarketEntity;
-import com.selfProject.SearchOffline.entity.ProductEntity;
-import com.selfProject.SearchOffline.repository.MarketRepository;
-import com.selfProject.SearchOffline.repository.ProductRepository;
+import com.selfProject.SearchOffline.domain.product.entity.ProductEntity;
+import com.selfProject.SearchOffline.domain.product.repository.ProductRepository;
+import com.selfProject.SearchOffline.service.FileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

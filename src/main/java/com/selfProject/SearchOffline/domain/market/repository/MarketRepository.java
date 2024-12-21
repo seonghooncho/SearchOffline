@@ -1,6 +1,6 @@
-package com.selfProject.SearchOffline.repository;
+package com.selfProject.SearchOffline.domain.market.repository;
 
-import com.selfProject.SearchOffline.entity.MarketEntity;
+import com.selfProject.SearchOffline.domain.market.entity.MarketEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

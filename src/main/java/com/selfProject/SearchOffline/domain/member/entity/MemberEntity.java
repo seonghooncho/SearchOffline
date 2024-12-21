@@ -1,5 +1,7 @@
-package com.selfProject.SearchOffline.entity;
+package com.selfProject.SearchOffline.domain.member.entity;
 
+import com.selfProject.SearchOffline.domain.market.entity.MarketEntity;
+import com.selfProject.SearchOffline.entity.FileEntity;
 import lombok.*;
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -11,7 +13,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-public class UserEntity {
+public class MemberEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

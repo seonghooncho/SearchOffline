@@ -1,8 +1,9 @@
-package com.selfProject.SearchOffline.dto;
+package com.selfProject.SearchOffline.domain.product.dto;
 
+import com.selfProject.SearchOffline.dto.FileDTO;
 import com.selfProject.SearchOffline.entity.FileEntity;
-import com.selfProject.SearchOffline.entity.MarketEntity;
-import com.selfProject.SearchOffline.entity.ProductEntity;
+import com.selfProject.SearchOffline.domain.market.entity.MarketEntity;
+import com.selfProject.SearchOffline.domain.product.entity.ProductEntity;
 import lombok.*;
 
 import java.util.List;
