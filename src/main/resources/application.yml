@@ -17,5 +17,8 @@ spring:
     open-in-view: false
     show-sql: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
   #database-platform: org.hibernate.dialect.MySQL8Dialect를 8 버전으로 변경하여 오류 해결
+
+openapi:
+  key: ${OPEN_API_KEY}
